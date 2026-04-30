@@ -55,7 +55,7 @@ Weini Quantum Proxy is a **complete open-source ecosystem**, including not only 
 - 📖 **Android Guide**: Detailed configuration tutorial
 - 📖 **iOS Guide**: Complete usage instructions
 - 🔄 **Node Sharing**: Easily share nodes with friends
-- 🌐 **Cross-Device Sync**: One account, multiple devices
+- 💾 **Local Configuration**: No registration required, ready to use
 
 ### 🛡️ Privacy & Security
 - 🔒 Open-source and transparent, code can be audited

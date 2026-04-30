@@ -77,7 +77,7 @@ Weini Quantum Proxy is an open-source tool developed by **Weini Securenet LLC** 
 - 📖 **安卓设备指南**: 详细的配置教程
 - 📖 **iOS设备指南**: 完整的使用说明
 - 🔄 **节点分享**: 轻松分享节点给朋友
-- 🌐 **跨设备同步**: 一个账号，多设备使用
+- 💾 **本地配置**: 无需注册，开箱即用
 
 #### 🛡️ 隐私和安全
 - 🔒 开源透明，代码可审查
