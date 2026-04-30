@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>维尼量子节点</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="orbs orb-a"></div>
+  <div class="orbs orb-b"></div>
+  <div id="toastHost" class="toast-host"></div>
+  <header id="titlebar" class="titlebar panel glow" style="--wails-draggable: drag">
+    <div class="titlebar-left">
+      <div class="titlebar-logo" aria-hidden="true">
+        <span></span>
+      </div>
+      <div class="titlebar-copy">
+        <strong>维尼量子节点</strong>
+        <span>量子全局代理控制台</span>
+      </div>
+    </div>
+    <div class="titlebar-center">
+      <div class="titlebar-banner" aria-label="Across the Great Wall Again">
+        <strong>Across the Great Wall Again</strong>
+        <span>Across the Great Wall Again</span>
+      </div>
+    </div>
+    <div class="titlebar-actions" style="--wails-draggable: no-drag">
+      <button id="windowMinBtn" class="window-btn min" type="button" aria-label="最小化窗口">—</button>
+      <button id="windowCloseBtn" class="window-btn close" type="button" aria-label="关闭窗口">✕</button>
+    </div>
+  </header>
+  <main class="shell">
+    <section class="hero panel glow">
+      <div>
+        <p class="eyebrow">维尼量子节点 · 全局代理控制台</p>
+        <h1>维尼量子节点</h1>
+        <p class="sub">支持 SS / VMESS / VLESS / TROJAN，从 list.json 拉取节点，并显示实时流量日志。</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat glow-soft"><span>总数</span><strong id="totalNodes">0</strong></div>
+      </div>
+    </section>
+
+    <section class="controls panel glow">
+      <label>目标地址</label>
+      <div class="url-row">
+        <input id="urlInput" type="text" placeholder="http://sanbuziyou.icu/list.json" />
+        <button id="fetchBtn" class="btn primary">量子抓取</button>
+      </div>
+      <div class="toolbar">
+        <div class="chips" id="protocolChips"></div>
+        <div class="actions">
+          <button id="openBtn" class="btn accent">选择节点</button>
+          <button id="connectBtn" class="btn primary">连接全局代理</button>
+          <button id="disconnectBtn" class="btn ghost">断开连接</button>
+        </div>
+      </div>
+      <div class="status-row">
+        <div class="progress"><div id="progressBar"></div></div>
+        <span id="statusText">就绪。</span>
+      </div>
+    </section>
+
+    <section class="dashboard">
+      <aside class="panel glow sidebar">
+        <h2>协议统计</h2>
+        <ul id="protocolStats"></ul>
+        <h2>当前节点</h2>
+        <div id="activeNodeCard" class="active-card">未激活节点</div>
+        <h2>全局代理</h2>
+        <div id="proxyStatusCard" class="active-card">尚未连接全局代理</div>
+      </aside>
+
+      <section class="panel glow data-panel">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>协议</th>
+                <th>名称</th>
+                <th>主机</th>
+                <th>端口</th>
+                <th>传输</th>
+                <th>TLS</th>
+              </tr>
+            </thead>
+            <tbody id="nodesBody"></tbody>
+          </table>
+        </div>
+        <div class="bottom-panels one-col">
+          <div class="mini-panel glow-soft log-panel-large">
+            <h3>流量日志</h3>
+            <pre id="trafficLogPanel"></pre>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

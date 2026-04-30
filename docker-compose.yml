@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  weini-quantum-proxy:
+    build: .
+    container_name: weini-quantum-proxy
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # Web管理界面
+      - "1080:1080"   # SOCKS5代理
+      - "7890:7890"   # HTTP代理
+    volumes:
+      - ./data:/app/data
+      - ./runtime:/app/runtime
+    environment:
+      - TZ=Asia/Shanghai
+      - LOG_LEVEL=info
+    networks:
+      - weini-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  weini-network:
+    driver: bridge
