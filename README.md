@@ -10,7 +10,7 @@
 [![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub release](https://img.shields.io/github/release/Weini-Securenet-LLC/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
-[![Website](https://img.shields.io/badge/Website-weinidaohang.com-blue)](https://weinidaohang.com/)
+[![Website](https://img.shields.io/badge/Website-weinisecure.net-blue)](https://weinisecure.net/)
 
 ---
 
@@ -23,7 +23,7 @@
 - 🌐 Promoting internet accessibility
 - 🤝 Supporting civic technology initiatives
 
-**Official**: [weinidaohang.com](https://weinidaohang.com/) | **Contact**: weinidaohang@proton.me
+**Official**: [weinisecure.net](https://weinisecure.net/) | **Contact**: info@weinisecure.net
 
 ---
 
@@ -39,14 +39,14 @@
 > **互联网自由是基本人权**  
 > **آزادی اینترنت یک حق اساسی بشر است**
 
-Weini Quantum Proxy is an open-source tool developed by **Weini Securenet LLC** to help people living under internet censorship break through blockades and regain freedom.
+Weini Quantum Proxy is an open-source tool developed by **Weini Securenet LLC** to help people access the internet securely and privately with advanced encryption protocols.
 
 **We believe**:
-- ✊ Freedom of information is a basic human right
-- 🌐 The internet should be open to everyone
-- 🔓 Technology can break down walls of censorship
+- ✊ Privacy is a fundamental right
+- 🌐 The internet should be accessible to everyone
+- 🔓 Technology can enhance online privacy and security
 - 🤝 The power of open-source communities is unlimited
-- 🤖 AI tools should serve everyone's freedom
+- 🤖 AI tools should serve everyone's digital freedom
 
 </div>
 

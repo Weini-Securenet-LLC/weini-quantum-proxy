@@ -2,7 +2,7 @@
 
 # 🌐 Weini Quantum Proxy
 
-**Fighting for Internet Freedom**
+**Privacy-First Network Security**
 
 [![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -18,14 +18,14 @@ English | [简体中文](../README.md) | [فارسی](README_FA.md) | [العر�
 
 ## 🕊️ Our Mission
 
-> **Internet freedom is a fundamental human right**
+> **Privacy is a fundamental right**
 
-Everyone has the right to freely access information, express their opinions, and connect with the world. Weini Quantum Proxy is an open-source tool helping people living under internet censorship to break through blockades and regain freedom.
+Everyone deserves secure and private access to information online. Weini Quantum Proxy is an open-source tool helping people access the internet securely with advanced encryption protocols.
 
 **We believe**:
-- ✊ Freedom of information is a basic human right
-- 🌐 The internet should be open to everyone
-- 🔓 Technology can break down walls of censorship
+- ✊ Privacy is a fundamental right
+- 🌐 The internet should be accessible to everyone
+- 🔓 Technology can enhance online security and privacy
 - 🤝 The power of open-source communities is unlimited
 
 </div>
