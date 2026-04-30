@@ -285,7 +285,7 @@ go test -tags=integration ./...
 
 - 💭 [GitHub Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions) - 一般讨论
 - 🐛 [GitHub Issues](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues) - Bug 和功能请求
-- 📧 Email: contact@weinisecure.net
+- 📧 Email: info@weinisecure.net
 
 ### 🙏 致谢
 
@@ -570,7 +570,7 @@ By submitting code, you agree that:
 
 - 💭 [GitHub Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions) - General discussions
 - 🐛 [GitHub Issues](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues) - Bugs and features
-- 📧 Email: contact@weinisecure.net
+- 📧 Email: info@weinisecure.net
 
 ### 🙏 Acknowledgments
 

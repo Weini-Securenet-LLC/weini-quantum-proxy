@@ -205,7 +205,7 @@ rm -rf ~/.config/weini-quantum-proxy
 - 📖 [完整文档](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy)
 - 🐛 [报告问题](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
 - 💡 [功能建议](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions)
-- 📧 Email: contact@weinisecure.net
+- 📧 Email: info@weinisecure.net
 
 ---
 
@@ -410,7 +410,7 @@ Select proxy or direct
 - 📖 [Full Documentation](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy)
 - 🐛 [Report Issues](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
 - 💡 [Feature Requests](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions)
-- 📧 Email: contact@weinisecure.net
+- 📧 Email: info@weinisecure.net
 
 ---
 
