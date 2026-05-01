@@ -7,7 +7,8 @@
 **Digital Human Rights & Security Ecosystem**  
 **数字人权与安全生态系统**
 
-[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
+[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-release.yml/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-release.yml)
+[![Build Check](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-check.yml/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub release](https://img.shields.io/github/release/Weini-Securenet-LLC/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
 [![Website](https://img.shields.io/badge/Website-weinisecure.net-blue)](https://weinisecure.net/)
