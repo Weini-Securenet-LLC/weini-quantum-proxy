@@ -1,0 +1,24 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "weini-quantum-proxy",
+  "outputfilename": "weini-quantum-proxy",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Weini Securenet LLC",
+    "email": "info@weinisecure.net"
+  },
+  "info": {
+    "companyName": "Weini Securenet LLC",
+    "productName": "Weini Quantum Proxy",
+    "productVersion": "0.9.1",
+    "copyright": "Copyright © 2026 Weini Securenet LLC",
+    "comments": "Privacy-First Network Security"
+  },
+  "wailsjsdir": "./web",
+  "assetdir": "./web",
+  "reloadonchange": true,
+  "debounceMS": 100
+}
