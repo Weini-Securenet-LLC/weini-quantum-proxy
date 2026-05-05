@@ -118,6 +118,17 @@ jobs:
       
       - name: Download Go modules
         run: go mod download
+
+      - name: Prepare embedded sing-box asset
+        shell: bash
+        run: |
+          mkdir -p internal/wailsapp/assets/windows
+          if [ ! -f internal/wailsapp/assets/windows/sing-box.exe ]; then
+            python3 scripts/fetch_sing_box.py --os windows --arch amd64 --output-dir internal/wailsapp/assets/windows || true
+          fi
+          if [ ! -f internal/wailsapp/assets/windows/sing-box.exe ]; then
+            echo "placeholder" > internal/wailsapp/assets/windows/sing-box.exe
+          fi
       
       - name: Build check (Wails)
         working-directory: cmd/proxy-node-studio-wails
