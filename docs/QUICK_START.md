@@ -200,6 +200,15 @@ rm -rf ~/.config/weini-quantum-proxy
 
 ---
 
+
+### 🤝 合作与赞助
+
+此处为广告位，寻找机场 / VPN 厂商合作与赞助。
+
+- 合作与赞助联系邮箱：**info@weinisecure.net**
+
+---
+
 ### 💬 获取帮助
 
 - 📖 [完整文档](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy)

@@ -356,6 +356,20 @@ tr:hover, tr.active { background: rgba(0,229,255,.08); }
   padding-right: 8px;
   font-family: ui-monospace, SFMono-Regular, monospace;
 }
+
+.ad-slot-note {
+  width: min(1400px, calc(100vw - 32px));
+  margin: 0 auto 22px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .86rem;
+  letter-spacing: .04em;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,.14);
+  background: rgba(255,255,255,.02);
+}
+
 .toast-host {
   position: fixed;
   top: 18px;

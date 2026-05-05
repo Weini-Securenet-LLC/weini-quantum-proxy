@@ -62,6 +62,12 @@ func TestFetchNodesUsesBackendParser(t *testing.T) {
 	defer server.Close()
 
 	app := New()
+	ssURI := "ss://YWVzLTI1Ni1nY206cGFzczFAc3MuZXhhbXBsZS5jb206ODM4OA#ss-demo"
+	vmessURI := makeVMessURI(t)
+	app.nodeProber = &fakeNodeProber{results: map[string]NodeTestResult{
+		ssURI:    {Node: proxynode.Node{Protocol: "ss", RawURI: ssURI, Host: "ss.example.com", Port: 8388}, Usable: true, LatencyMS: 100},
+		vmessURI: {Node: proxynode.Node{Protocol: "vmess", RawURI: vmessURI, Host: "vmess.example.com", Port: 443}, Usable: true, LatencyMS: 90},
+	}}
 	app.Startup(context.Background())
 	out, err := app.FetchNodes(FetchRequest{URL: server.URL, Protocols: []string{"ss", "vmess"}, Timeout: 5, SkipFetchPolicy: true})
 	if err != nil {
@@ -72,6 +78,9 @@ func TestFetchNodesUsesBackendParser(t *testing.T) {
 	}
 	if out.SourceDiscoveredCount != 2 {
 		t.Fatalf("expected source discovered 2, got %d", out.SourceDiscoveredCount)
+	}
+	if out.TestedCount != 2 || out.UsableCount != 2 {
+		t.Fatalf("expected tested/usable 2/2, got %d/%d", out.TestedCount, out.UsableCount)
 	}
 	if out.ProtocolCounts["ss"] != 1 || out.ProtocolCounts["vmess"] != 1 {
 		t.Fatalf("unexpected counts: %#v", out.ProtocolCounts)
@@ -91,6 +100,12 @@ func TestFetchCooldownBlocksSecondFetchWithinHour(t *testing.T) {
 	defer server.Close()
 
 	app := New()
+	ssURI := "ss://YWVzLTI1Ni1nY206cGFzczFAc3MuZXhhbXBsZS5jb206ODM4OA#ss-demo"
+	vmessURI := makeVMessURI(t)
+	app.nodeProber = &fakeNodeProber{results: map[string]NodeTestResult{
+		ssURI:    {Node: proxynode.Node{Protocol: "ss", RawURI: ssURI, Host: "ss.example.com", Port: 8388}, Usable: true},
+		vmessURI: {Node: proxynode.Node{Protocol: "vmess", RawURI: vmessURI, Host: "vmess.example.com", Port: 443}, Usable: true},
+	}}
 	app.Startup(context.Background())
 	// 首次抓取需跳过策略，避免本机残留 fetch_policy.json 干扰；随后用第二次验证冷却。
 	_, err := app.FetchNodes(FetchRequest{URL: server.URL, Protocols: []string{"ss", "vmess"}, Timeout: 5, SkipFetchPolicy: true})

@@ -211,6 +211,17 @@ Weini Quantum Proxy is an open-source tool developed by **Weini Securenet LLC** 
 
 ---
 
+
+### 🤝 合作与赞助
+
+此处为广告位，寻找机场 / VPN 厂商合作与赞助。
+
+- **合作方向**: 联合推广、节点服务对接、品牌露出
+- **赞助方向**: 项目开发赞助、社区活动赞助、公益网络自由计划支持
+- **联系方式**: **info@weinisecure.net**
+
+---
+
 ### 🤝 如何贡献
 
 我们欢迎所有形式的贡献！

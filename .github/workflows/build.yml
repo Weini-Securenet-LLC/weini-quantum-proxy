@@ -17,6 +17,7 @@ jobs:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           # Windows builds
@@ -94,7 +95,11 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev build-essential pkg-config
+          WEBKIT_PKG="libwebkit2gtk-4.0-dev"
+          if ! apt-cache show "$WEBKIT_PKG" >/dev/null 2>&1; then
+            WEBKIT_PKG="libwebkit2gtk-4.1-dev"
+          fi
+          sudo apt-get install -y libgtk-3-dev "$WEBKIT_PKG" build-essential pkg-config
 
       - name: Prepare sing-box embed (Windows)
         if: matrix.goos == 'windows'
@@ -190,7 +195,7 @@ jobs:
   docker:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && secrets.DOCKER_USERNAME != '' && secrets.DOCKER_PASSWORD != ''
     
     steps:
       - name: Checkout code

@@ -208,35 +208,58 @@ func (a *App) FetchNodes(req FetchRequest) (proxynode.Output, error) {
 	}
 
 	a.fetchMu.Lock()
-	defer a.fetchMu.Unlock()
-
 	if err := a.checkFetchAllowedLocked(req.SkipFetchPolicy); err != nil {
+		a.fetchMu.Unlock()
 		return proxynode.Output{}, err
 	}
+	a.fetchMu.Unlock()
 
 	out, err := proxynode.FetchAndNormalize(url, timeout, protocols)
 	if err != nil {
 		return proxynode.Output{}, err
 	}
 	sourceCount := len(out.Nodes)
-	sampled := proxynode.SampleSubset(out.Nodes, maxLocalSampleNodes)
+	if sourceCount == 0 {
+		return proxynode.Output{}, fmt.Errorf("没有抓到可解析节点")
+	}
+
+	allResults := make([]NodeTestResult, 0, len(out.Nodes))
+	usable := make([]proxynode.Node, 0, len(out.Nodes))
+	for _, node := range out.Nodes {
+		result := a.nodeProber.Probe(node)
+		allResults = append(allResults, result)
+		if result.Usable {
+			usable = append(usable, result.Node)
+		}
+	}
+	sampled := proxynode.SampleSubset(usable, maxLocalSampleNodes)
 	summary := proxynode.SummarizeNodes(sampled, protocols)
 	out.Nodes = sampled
 	out.TotalNodes = len(sampled)
 	out.SourceDiscoveredCount = sourceCount
+	out.TestedCount = len(allResults)
+	out.UsableCount = len(usable)
 	out.ProtocolCounts = summary.ProtocolCounts
 	out.HostsPreview = summary.HostsPreview
+	if len(usable) == 0 {
+		out.Notice = "抓取完成，但本轮测速后暂无可用节点"
+	}
 
+	a.fetchMu.Lock()
 	a.lastFetchAt = time.Now()
 	a.probeDone = map[string]bool{}
 	a.probeUsable = map[string]bool{}
 	a.lastSampleURIs = make([]string, 0, len(sampled))
 	for _, n := range sampled {
-		if n.RawURI != "" {
-			a.lastSampleURIs = append(a.lastSampleURIs, n.RawURI)
+		if n.RawURI == "" {
+			continue
 		}
+		a.lastSampleURIs = append(a.lastSampleURIs, n.RawURI)
+		a.probeDone[n.RawURI] = true
+		a.probeUsable[n.RawURI] = true
 	}
 	a.saveFetchPolicyLocked()
+	a.fetchMu.Unlock()
 	return out, nil
 }
 

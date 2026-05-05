@@ -255,6 +255,9 @@ func TestRuntimeStopReturnsQuicklyWhenWaitDragsOn(t *testing.T) {
 	if !strings.Contains(status.CheckMessage, "后台") {
 		t.Fatalf("expected background cleanup message, got %q", status.CheckMessage)
 	}
+	if !process.waitFinishedWithin(3 * time.Second) {
+		t.Fatal("background wait did not finish")
+	}
 	if !process.killCalled || !process.waitCalled {
 		t.Fatal("expected process kill and async wait")
 	}
@@ -263,9 +266,6 @@ func TestRuntimeStopReturnsQuicklyWhenWaitDragsOn(t *testing.T) {
 	}
 	if process.waitStartedAt.Before(process.killedAt) {
 		t.Fatal("wait should start after kill")
-	}
-	if !process.waitFinishedWithin(3 * time.Second) {
-		t.Fatal("background wait did not finish")
 	}
 }
 

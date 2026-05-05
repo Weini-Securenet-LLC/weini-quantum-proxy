@@ -41,6 +41,9 @@ type Output struct {
 	SupportedProtocols    []string       `json:"supported_protocols"`
 	TotalNodes            int            `json:"total_nodes"`
 	SourceDiscoveredCount int            `json:"source_discovered_count"`
+	TestedCount           int            `json:"tested_count"`
+	UsableCount           int            `json:"usable_count"`
+	Notice                string         `json:"notice,omitempty"`
 	ProtocolCounts        map[string]int `json:"protocol_counts"`
 	HostsPreview          []string       `json:"hosts_preview"`
 	Nodes                 []Node         `json:"nodes"`

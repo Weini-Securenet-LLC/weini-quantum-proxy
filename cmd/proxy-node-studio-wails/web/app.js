@@ -485,12 +485,12 @@ async function fetchNodes() {
     const src = data.source_discovered_count;
     const line =
       src && src > (data.total_nodes || 0)
-        ? `已从来源发现 ${src} 条，随机保留本地 ${data.total_nodes} 条`
+        ? `来源 ${src} 条，测速后可用 ${data.usable_count || 0} 条，已保留 ${data.total_nodes} 条`
         : `已加载本地 ${data.total_nodes} 条节点`;
     setStatus(line);
     appendTrafficLine(
       src && src > (data.total_nodes || 0)
-        ? `成功：来源 ${src} 条 → 本地保留 ${data.total_nodes} 条`
+        ? `成功：来源 ${src} 条，测速 ${data.tested_count || 0} 条，可用 ${data.usable_count || 0} 条，保留 ${data.total_nodes} 条`
         : `成功加载 ${data.total_nodes} 个节点`,
     );
   } catch (err) {
