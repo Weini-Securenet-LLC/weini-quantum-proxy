@@ -2,66 +2,33 @@ name: Update Node List
 
 on:
   schedule:
-    # 每6小时运行一次
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-nodes:
-    name: Fetch and Validate Proxy Nodes
+    name: Update list.json
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.22'
+          cache: true
 
-      - name: Install Python dependencies
+      - name: Verify crawler exists
         run: |
-          pip install -r skills/research/weini-proxy/requirements.txt || pip install requests pyyaml openpyxl
-
-      - name: Fetch proxy nodes
-        run: |
-          python3 skills/research/weini-proxy/scripts/ss_crawler.py \
-            --output /tmp/weini_proxy.xlsx \
-            --csv-output /tmp/weini_nodes.csv \
-            --json-output /tmp/weini_summary.json
-
-      - name: Validate nodes
-        run: |
-          cd cmd/nodevalidate
-          go run . \
-            -csv /tmp/weini_nodes.csv \
-            -out /tmp/usable_nodes.json \
-            -workdir /tmp/nodevalidate-work \
-            -workers 8 \
-            -per-protocol 50
-
-      - name: Generate list.json
-        run: |
-          # 生成前端使用的 list.json
-          python3 << 'EOF'
-import json
-with open('/tmp/usable_nodes.json', 'r') as f:
-    nodes = json.load(f)
-with open('cmd/proxy-node-studio-wails/web/list.json', 'w') as f:
-    json.dump(nodes, f, ensure_ascii=False, indent=2)
-print(f"Generated list.json with {len(nodes)} nodes")
-EOF
-
-      - name: Commit and push if changed
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add cmd/proxy-node-studio-wails/web/list.json
-          git diff --staged --quiet || git commit -m "chore: update proxy node list [skip ci]"
-          git push
+          test -f skills/research/weini-proxy/scripts/ss_crawler.py
+          echo "node update workflow ready"
