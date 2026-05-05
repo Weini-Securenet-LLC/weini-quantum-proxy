@@ -1,0 +1,80 @@
+[
+  {
+    "repo": "freefq/free",
+    "branches": ["main", "master"],
+    "paths": ["v2"],
+    "include_readme": true
+  },
+  {
+    "repo": "Pawdroid/Free-servers",
+    "branches": ["main", "master"],
+    "paths": ["subscribe"],
+    "include_readme": true
+  },
+  {
+    "repo": "free-nodes/v2rayfree",
+    "branches": ["main", "master"],
+    "paths": ["v2"],
+    "include_readme": true
+  },
+  {
+    "repo": "snakem982/proxypool",
+    "branches": ["main", "master"],
+    "paths": ["clash.meta"],
+    "include_readme": true
+  },
+  {
+    "repo": "awesome-vpn/awesome-vpn",
+    "branches": ["main", "master"],
+    "paths": [],
+    "include_readme": true
+  },
+  {
+    "repo": "mahdibland/V2RayAggregator",
+    "branches": ["main", "master"],
+    "paths": ["sub/sub_merge_base64.txt", "sub/sub_merge.txt"],
+    "include_readme": true
+  },
+  {
+    "repo": "aiboboxx/v2rayfree",
+    "branches": ["main", "master"],
+    "paths": ["v2"],
+    "include_readme": true
+  },
+  {
+    "repo": "sashalsk/V2Ray",
+    "branches": ["main", "master"],
+    "paths": ["V2Config_64Encode"],
+    "include_readme": true
+  },
+  {
+    "repo": "ermaozi/get_subscribe",
+    "branches": ["main", "master"],
+    "paths": ["subscribe/v2ray.txt", "subscribe/clash.yml"],
+    "include_readme": true
+  },
+  {
+    "repo": "Bardiafa/Free-V2ray-Config",
+    "branches": ["main", "master"],
+    "paths": ["Sub1", "Sub2"],
+    "include_readme": true
+  },
+  {
+    "repo": "yebekhe/TelegramV2rayCollector",
+    "branches": ["main", "master"],
+    "paths": ["sub/base64/mix", "sub/mix"],
+    "include_readme": true
+  },
+  {
+    "repo": "mfuu/v2ray",
+    "branches": ["main", "master"],
+    "paths": ["v2ray"],
+    "include_readme": true
+  },
+  {
+    "repo": "peasoft/NoMoreWalls",
+    "branches": ["main", "master"],
+    "paths": ["list_raw.txt"],
+    "include_readme": true
+  }
+]
