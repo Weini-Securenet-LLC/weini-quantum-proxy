@@ -122,7 +122,7 @@ For Arabic, Persian, etc.:
 
 ## 💬 Get Help
 
-- Ask in [Discussions](https://github.com/weinidaohang/weini-quantum-proxy/discussions)
+- Ask in [Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions)
 - Join our [Telegram](https://t.me/weini_quantum)
 - Tag maintainers in your PR
 

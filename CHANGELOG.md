@@ -42,5 +42,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/weinidaohang/weini-quantum-proxy/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/weinidaohang/weini-quantum-proxy/releases/tag/v1.0.0
+[Unreleased]: https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases/tag/v1.0.0

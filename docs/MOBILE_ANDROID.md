@@ -385,7 +385,7 @@ Clash设置步骤:
 
 1. 📖 阅读本指南的常见问题部分
 2. 💬 加入 [Telegram群组](https://t.me/weini_quantum)
-3. 🐛 在GitHub提交 [Issue](https://github.com/weinidaohang/weini-quantum-proxy/issues)
+3. 🐛 在GitHub提交 [Issue](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
 4. 📧 发送邮件寻求帮助
 
 ---

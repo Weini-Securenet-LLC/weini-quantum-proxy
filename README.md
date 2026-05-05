@@ -1,37 +1,53 @@
 <div align="center">
 
-# 🌐 维尼量子节点
-# Weini Quantum Proxy
+# 🌐 Weini Quantum Proxy
+# 维尼量子节点
 # پروکسی کوانتومی وینی
 
-**为自由访问互联网而战 · Fighting for Internet Freedom · برای آزادی اینترنت**
+**Digital Human Rights & Security Ecosystem**  
+**数字人权与安全生态系统**
 
-[![Build Status](https://github.com/weinidaohang/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/weinidaohang/weini-quantum-proxy/actions)
+[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-release.yml/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-release.yml)
+[![Build Check](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-check.yml/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions/workflows/build-check.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/weinidaohang/weini-quantum-proxy/releases)
+[![GitHub release](https://img.shields.io/github/release/Weini-Securenet-LLC/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
+[![Website](https://img.shields.io/badge/Website-weinisecure.net-blue)](https://weinisecure.net/)
+
+---
+
+### 🏢 About Weini Securenet LLC
+
+**Weini Securenet** is a digital human-rights and security ecosystem built for safer access, resilient archives, and sustainable civic technology. We are committed to:
+
+- 🛡️ Building tools for digital freedom
+- 📚 Preserving knowledge and information
+- 🌐 Promoting internet accessibility
+- 🤝 Supporting civic technology initiatives
+
+**Official**: [weinisecure.net](https://weinisecure.net/) | **Contact**: info@weinisecure.net
 
 ---
 
 ### 🌍 Read in Your Language | 选择您的语言
 
-[English](i18n/README_EN.md) | [简体中文](#简体中文) | [فارسی](i18n/README_FA.md) | [العربية](i18n/README_AR.md) | [Русский](i18n/README_RU.md) | [Türkçe](i18n/README_TR.md) | [မြန်မာ](i18n/README_MM.md)
+[English](i18n/README_EN.md) | [简体中文](#简体中文) | [فارسی](i18n/README_FA.md) | [العربية](i18n/README_AR.md) | [Русский](i18n/README_RU.md)
 
 ---
 
-## 🕊️ 我们的使命 | Our Mission
+## 🕊️ Our Mission | 我们的使命
 
+> **Internet freedom is a fundamental human right**  
 > **互联网自由是基本人权**  
-> Internet freedom is a fundamental human right  
-> آزادی اینترنت یک حق اساسی بشر است
+> **آزادی اینترنت یک حق اساسی بشر است**
 
-每个人都有权利自由访问信息、表达观点、与世界连接。维尼量子节点是一个开源工具，帮助生活在网络审查下的人们突破封锁，重获自由。
+Weini Quantum Proxy is an open-source tool developed by **Weini Securenet LLC** to help people access the internet securely and privately with advanced encryption protocols.
 
-**我们相信**:
-- ✊ 信息自由是人的基本权利
-- 🌐 互联网应该对所有人开放
-- 🔓 技术可以打破封锁的高墙
-- 🤝 开源社区的力量无限
-- 🤖 AI工具应该为每个人的自由服务
+**We believe**:
+- ✊ Privacy is a fundamental right
+- 🌐 The internet should be accessible to everyone
+- 🔓 Technology can enhance online privacy and security
+- 🤝 The power of open-source communities is unlimited
+- 🤖 AI tools should serve everyone's digital freedom
 
 </div>
 
@@ -62,7 +78,7 @@
 - 📖 **安卓设备指南**: 详细的配置教程
 - 📖 **iOS设备指南**: 完整的使用说明
 - 🔄 **节点分享**: 轻松分享节点给朋友
-- 🌐 **跨设备同步**: 一个账号，多设备使用
+- 💾 **本地配置**: 无需注册，开箱即用
 
 #### 🛡️ 隐私和安全
 - 🔒 开源透明，代码可审查
@@ -76,7 +92,7 @@
 
 #### 方式1: 桌面应用（推荐新手）
 
-1. 前往 [Releases](https://github.com/weinidaohang/weini-quantum-proxy/releases) 下载适合你系统的版本
+1. 前往 [Releases](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases) 下载适合你系统的版本
 2. 解压并运行程序
 3. 选择一个节点
 4. 点击"启动全局代理"
@@ -200,8 +216,8 @@
 我们欢迎所有形式的贡献！
 
 #### 代码贡献
-- 🐛 [报告问题](https://github.com/weinidaohang/weini-quantum-proxy/issues)
-- 💡 [建议功能](https://github.com/weinidaohang/weini-quantum-proxy/issues/new?template=feature_request.md)
+- 🐛 [报告问题](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
+- 💡 [建议功能](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues/new?template=feature_request.md)
 - 💻 [提交代码](community/CONTRIBUTING.md)
 
 #### 非技术贡献
@@ -261,28 +277,42 @@
 
 ### 💬 获取帮助
 
-- [GitHub Discussions](https://github.com/weinidaohang/weini-quantum-proxy/discussions) - 社区讨论
-- [Telegram](https://t.me/weini_quantum) - 实时聊天
-- [桌面应用指南](docs/USER_GUIDE.md) - 桌面版详细教程
-- [移动设备指南](docs/) - 安卓和iOS配置
-- [Skill开发指南](docs/SKILL_DEVELOPMENT.md) - AI工具开发
+- 🌐 **Official Website**: [weinidaohang.com](https://weinidaohang.com/)
+- 💬 **GitHub Discussions**: [Community Forum](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions)
+- 📱 **Telegram**: [Join Our Channel](https://t.me/weini_quantum)
+- 📧 **Email**: weinidaohang@proton.me
+- 📖 **Documentation**: [Full Guide](docs/)
 
 ---
 
 <div align="center">
 
-## 🌐 为了更自由的互联网
+## 🌐 For a Freer Internet | 为了更自由的互联网
 
-**三个层面的开源**:
-1. 🖥️ **应用程序开源** - 任何人都可以使用和审查
-2. 🤖 **AI工具开源** - 让技术为每个人服务
-3. 📚 **知识开源** - 分享方法，赋能他人
+**Powered by Weini Securenet LLC**
 
-**如果这个项目帮助了你，请给我们一个 ⭐ Star，并分享给更多需要的人**
+**Three Levels of Open Source**:
+1. 🖥️ **Applications** - Anyone can use and audit
+2. 🤖 **AI Tools** - Technology serving everyone
+3. 📚 **Knowledge** - Sharing methods, empowering people
+
+---
+
+**If this project helped you, please give us a ⭐ Star and share it with more people who need it**
 
 **Together, we break down the Great Firewall**  
 **一起，穿越长城**
 
-Made with ❤️ for Freedom
+---
+
+### 🏢 About Weini Securenet LLC
+
+A digital human-rights and security ecosystem built for safer access, resilient archives, and sustainable civic technology.
+
+**Location**: United States of America  
+**Website**: [weinidaohang.com](https://weinidaohang.com/)  
+**GitHub**: [@Weini-Securenet-LLC](https://github.com/Weini-Securenet-LLC)
+
+Made with ❤️ for Freedom | © 2026 Weini Securenet LLC
 
 </div>

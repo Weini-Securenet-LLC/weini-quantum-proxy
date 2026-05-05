@@ -2,11 +2,11 @@
 
 # 🌐 Weini Quantum Proxy
 
-**Fighting for Internet Freedom**
+**Privacy-First Network Security**
 
-[![Build Status](https://github.com/weinidaohang/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/weinidaohang/weini-quantum-proxy/actions)
+[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/weinidaohang/weini-quantum-proxy/releases)
+[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
 
 ---
 
@@ -18,14 +18,14 @@ English | [简体中文](../README.md) | [فارسی](README_FA.md) | [العر�
 
 ## 🕊️ Our Mission
 
-> **Internet freedom is a fundamental human right**
+> **Privacy is a fundamental right**
 
-Everyone has the right to freely access information, express their opinions, and connect with the world. Weini Quantum Proxy is an open-source tool helping people living under internet censorship to break through blockades and regain freedom.
+Everyone deserves secure and private access to information online. Weini Quantum Proxy is an open-source tool helping people access the internet securely with advanced encryption protocols.
 
 **We believe**:
-- ✊ Freedom of information is a basic human right
-- 🌐 The internet should be open to everyone
-- 🔓 Technology can break down walls of censorship
+- ✊ Privacy is a fundamental right
+- 🌐 The internet should be accessible to everyone
+- 🔓 Technology can enhance online security and privacy
 - 🤝 The power of open-source communities is unlimited
 
 </div>
@@ -55,7 +55,7 @@ Weini Quantum Proxy is a **complete open-source ecosystem**, including not only 
 - 📖 **Android Guide**: Detailed configuration tutorial
 - 📖 **iOS Guide**: Complete usage instructions
 - 🔄 **Node Sharing**: Easily share nodes with friends
-- 🌐 **Cross-Device Sync**: One account, multiple devices
+- 💾 **Local Configuration**: No registration required, ready to use
 
 ### 🛡️ Privacy & Security
 - 🔒 Open-source and transparent, code can be audited
@@ -69,7 +69,7 @@ Weini Quantum Proxy is a **complete open-source ecosystem**, including not only 
 
 ### Method 1: Desktop Application (Recommended for Beginners)
 
-1. Go to [Releases](https://github.com/weinidaohang/weini-quantum-proxy/releases) and download the version for your system
+1. Go to [Releases](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases) and download the version for your system
 2. Extract and run the program
 3. Select a node
 4. Click "Start Global Proxy"
@@ -144,8 +144,8 @@ Weini Quantum Proxy
 
 We welcome all forms of contributions!
 
-- 🐛 [Report Issues](https://github.com/weinidaohang/weini-quantum-proxy/issues)
-- 💡 [Suggest Features](https://github.com/weinidaohang/weini-quantum-proxy/issues/new?template=feature_request.md)
+- 🐛 [Report Issues](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
+- 💡 [Suggest Features](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues/new?template=feature_request.md)
 - 🌍 [Translate Documentation](../community/TRANSLATION.md)
 - 💻 [Submit Code](../CONTRIBUTING.md)
 - 📢 Share with more people who need it
@@ -186,7 +186,7 @@ Thanks to all those fighting for internet freedom:
 
 ## 💬 Get Help
 
-- [GitHub Discussions](https://github.com/weinidaohang/weini-quantum-proxy/discussions) - Community discussions
+- [GitHub Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions) - Community discussions
 - [Telegram](https://t.me/weini_quantum) - Real-time chat
 - [User Guide](../docs/USER_GUIDE.md) - Detailed guide
 

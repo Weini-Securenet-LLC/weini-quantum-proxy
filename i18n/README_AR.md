@@ -4,9 +4,9 @@
 
 **من أجل حرية الإنترنت**
 
-[![Build Status](https://github.com/weinidaohang/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/weinidaohang/weini-quantum-proxy/actions)
+[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/weinidaohang/weini-quantum-proxy/releases)
+[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
 
 ---
 
@@ -58,7 +58,7 @@
 
 ### التنزيل والتشغيل
 
-1. انتقل إلى [Releases](https://github.com/weinidaohang/weini-quantum-proxy/releases) وقم بتنزيل الإصدار المناسب لنظامك
+1. انتقل إلى [Releases](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases) وقم بتنزيل الإصدار المناسب لنظامك
 2. استخرج الملف وقم بتشغيل البرنامج
 3. اختر عقدة
 4. انقر على "بدء الوكيل العالمي"
@@ -98,8 +98,8 @@
 
 نرحب بجميع أشكال المساهمات!
 
-- 🐛 [الإبلاغ عن المشاكل](https://github.com/weinidaohang/weini-quantum-proxy/issues)
-- 💡 [اقتراح الميزات](https://github.com/weinidaohang/weini-quantum-proxy/issues/new?template=feature_request.md)
+- 🐛 [الإبلاغ عن المشاكل](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
+- 💡 [اقتراح الميزات](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues/new?template=feature_request.md)
 - 🌍 [ترجمة الوثائق](../community/TRANSLATION.md)
 - 💻 [إرسال الكود](../CONTRIBUTING.md)
 - 📢 مشاركة مع المزيد من الأشخاص الذين يحتاجون إليه

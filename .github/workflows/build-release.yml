@@ -1,0 +1,409 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows - 多架构
+          - name: Windows AMD64
+            os: windows-latest
+            goos: windows
+            goarch: amd64
+            wails_platform: windows/amd64
+            artifact_name: weini-quantum-proxy-windows-amd64.exe
+            
+          - name: Windows 386
+            os: windows-latest
+            goos: windows
+            goarch: 386
+            wails_platform: windows/386
+            artifact_name: weini-quantum-proxy-windows-386.exe
+            
+          - name: Windows ARM64
+            os: windows-latest
+            goos: windows
+            goarch: arm64
+            wails_platform: windows/arm64
+            artifact_name: weini-quantum-proxy-windows-arm64.exe
+            
+          # macOS - 多架构
+          - name: macOS Universal
+            os: macos-latest
+            goos: darwin
+            goarch: universal
+            wails_platform: darwin/universal
+            artifact_name: weini-quantum-proxy-macos-universal.app
+            artifact_type: app
+            
+          - name: macOS AMD64 (Intel)
+            os: macos-latest
+            goos: darwin
+            goarch: amd64
+            wails_platform: darwin/amd64
+            artifact_name: weini-quantum-proxy-macos-amd64.app
+            artifact_type: app
+            
+          - name: macOS ARM64 (Apple Silicon)
+            os: macos-latest
+            goos: darwin
+            goarch: arm64
+            wails_platform: darwin/arm64
+            artifact_name: weini-quantum-proxy-macos-arm64.app
+            artifact_type: app
+            
+          # Linux - 多架构
+          - name: Linux AMD64
+            os: ubuntu-latest
+            goos: linux
+            goarch: amd64
+            wails_platform: linux/amd64
+            artifact_name: weini-quantum-proxy-linux-amd64
+            
+          - name: Linux 386
+            os: ubuntu-latest
+            goos: linux
+            goarch: 386
+            wails_platform: linux/386
+            artifact_name: weini-quantum-proxy-linux-386
+            
+          - name: Linux ARM64
+            os: ubuntu-latest
+            goos: linux
+            goarch: arm64
+            wails_platform: linux/arm64
+            artifact_name: weini-quantum-proxy-linux-arm64
+            
+          - name: Linux ARM
+            os: ubuntu-latest
+            goos: linux
+            goarch: arm
+            wails_platform: linux/arm
+            artifact_name: weini-quantum-proxy-linux-arm
+    
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      # Linux 依赖
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.0-dev \
+            build-essential \
+            pkg-config \
+            gcc-multilib \
+            gcc-aarch64-linux-gnu \
+            gcc-arm-linux-gnueabihf
+      
+      # Windows 环境
+      - name: Setup Windows environment
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "CGO_ENABLED=1" >> $GITHUB_ENV
+      
+      # macOS 环境
+      - name: Setup macOS environment
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "CGO_ENABLED=1" >> $GITHUB_ENV
+      
+      - name: Install Wails CLI
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+      
+      - name: Download Go modules
+        run: go mod download
+      
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          else
+            VERSION=$(git describe --tags --always --dirty)
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+      
+      # 设置交叉编译环境变量
+      - name: Set cross-compile environment (Linux ARM64)
+        if: matrix.os == 'ubuntu-latest' && matrix.goarch == 'arm64'
+        run: |
+          echo "CC=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+          echo "CXX=aarch64-linux-gnu-g++" >> $GITHUB_ENV
+      
+      - name: Set cross-compile environment (Linux ARM)
+        if: matrix.os == 'ubuntu-latest' && matrix.goarch == 'arm'
+        run: |
+          echo "CC=arm-linux-gnueabihf-gcc" >> $GITHUB_ENV
+          echo "CXX=arm-linux-gnueabihf-g++" >> $GITHUB_ENV
+      
+      - name: Build application
+        working-directory: cmd/proxy-node-studio-wails
+        shell: bash
+        run: |
+          wails build \
+            -clean \
+            -platform ${{ matrix.wails_platform }} \
+            -ldflags "-s -w -X main.Version=${{ steps.version.outputs.VERSION }} -X main.BuildTime=$(date -u '+%Y-%m-%d_%H:%M:%S')"
+      
+      # Windows 产物处理
+      - name: Find build artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          BUILD_DIR="cmd/proxy-node-studio-wails/build/bin"
+          if [ -f "$BUILD_DIR/proxy-node-studio-wails.exe" ]; then
+            mv "$BUILD_DIR/proxy-node-studio-wails.exe" "$BUILD_DIR/${{ matrix.artifact_name }}"
+          elif [ -f "$BUILD_DIR/weini-quantum-proxy.exe" ]; then
+            mv "$BUILD_DIR/weini-quantum-proxy.exe" "$BUILD_DIR/${{ matrix.artifact_name }}"
+          fi
+          echo "BUILD_ARTIFACT=$BUILD_DIR/${{ matrix.artifact_name }}" >> $GITHUB_ENV
+      
+      # macOS 产物处理
+      - name: Find build artifacts (macOS)
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: |
+          BUILD_DIR="cmd/proxy-node-studio-wails/build/bin"
+          APP_NAME="${{ matrix.artifact_name }}"
+          
+          # 查找生成的 .app
+          if [ -d "$BUILD_DIR/proxy-node-studio-wails.app" ]; then
+            mv "$BUILD_DIR/proxy-node-studio-wails.app" "$BUILD_DIR/${APP_NAME}"
+          elif [ -d "$BUILD_DIR/weini-quantum-proxy.app" ]; then
+            # 如果名字不匹配，重命名
+            if [ "$BUILD_DIR/weini-quantum-proxy.app" != "$BUILD_DIR/${APP_NAME}" ]; then
+              mv "$BUILD_DIR/weini-quantum-proxy.app" "$BUILD_DIR/${APP_NAME}"
+            fi
+          fi
+          
+          # 创建 .app 的 zip 压缩包
+          cd "$BUILD_DIR"
+          ZIP_NAME="${APP_NAME%.app}.zip"
+          zip -r "$ZIP_NAME" "${APP_NAME}"
+          cd -
+          echo "BUILD_ARTIFACT=$BUILD_DIR/$ZIP_NAME" >> $GITHUB_ENV
+      
+      # Linux 产物处理
+      - name: Find build artifacts (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          BUILD_DIR="cmd/proxy-node-studio-wails/build/bin"
+          if [ -f "$BUILD_DIR/proxy-node-studio-wails" ]; then
+            mv "$BUILD_DIR/proxy-node-studio-wails" "$BUILD_DIR/${{ matrix.artifact_name }}"
+          elif [ -f "$BUILD_DIR/weini-quantum-proxy" ]; then
+            mv "$BUILD_DIR/weini-quantum-proxy" "$BUILD_DIR/${{ matrix.artifact_name }}"
+          fi
+          chmod +x "$BUILD_DIR/${{ matrix.artifact_name }}"
+          echo "BUILD_ARTIFACT=$BUILD_DIR/${{ matrix.artifact_name }}" >> $GITHUB_ENV
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ env.BUILD_ARTIFACT }}
+          if-no-files-found: error
+  
+  # 创建 Release
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      
+      - name: Display structure
+        run: ls -R artifacts
+      
+      - name: Get version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Create Release Notes
+        run: |
+          cat > release_notes.md << 'EOF'
+          ## Weini Quantum Proxy ${{ steps.version.outputs.VERSION }}
+          
+          ### 📦 下载 / Downloads
+          
+          #### Windows
+          
+          | 架构 | 文件 | 适用系统 |
+          |------|------|---------|
+          | **64位** | `weini-quantum-proxy-windows-amd64.exe` | Windows 10/11 (64位) |
+          | **32位** | `weini-quantum-proxy-windows-386.exe` | Windows 7/8/10 (32位) |
+          | **ARM64** | `weini-quantum-proxy-windows-arm64.exe` | Windows on ARM (Surface Pro X 等) |
+          
+          #### macOS
+          
+          | 架构 | 文件 | 适用设备 |
+          |------|------|---------|
+          | **Universal** ⭐ | `weini-quantum-proxy-macos-universal.zip` | 所有 Mac（Intel + Apple Silicon）|
+          | **Intel** | `weini-quantum-proxy-macos-amd64.zip` | Intel 芯片 Mac |
+          | **Apple Silicon** | `weini-quantum-proxy-macos-arm64.zip` | M1/M2/M3 芯片 Mac |
+          
+          **推荐**: 下载 Universal 版本，同时支持 Intel 和 Apple Silicon。
+          
+          #### Linux
+          
+          | 架构 | 文件 | 适用系统 |
+          |------|------|---------|
+          | **AMD64** | `weini-quantum-proxy-linux-amd64` | Ubuntu/Debian/Fedora (64位) |
+          | **386** | `weini-quantum-proxy-linux-386` | 老旧 PC (32位) |
+          | **ARM64** | `weini-quantum-proxy-linux-arm64` | 树莓派 4/5, ARM 服务器 |
+          | **ARM** | `weini-quantum-proxy-linux-arm` | 树莓派 3 及更早 |
+          
+          ---
+          
+          ### 🚀 安装指南
+          
+          <details>
+          <summary><b>Windows 安装</b></summary>
+          
+          1. 下载适合您系统的版本：
+             - 大多数现代 PC：`weini-quantum-proxy-windows-amd64.exe`
+             - 老旧 PC（32位）：`weini-quantum-proxy-windows-386.exe`
+             - Surface Pro X：`weini-quantum-proxy-windows-arm64.exe`
+          
+          2. 双击运行
+          
+          3. Windows Defender 可能显示警告：
+             - 点击 "更多信息"
+             - 点击 "仍要运行"
+          
+          </details>
+          
+          <details>
+          <summary><b>macOS 安装</b></summary>
+          
+          1. 下载 `weini-quantum-proxy-macos-universal.zip`（推荐）
+          
+          2. 解压 .zip 文件
+          
+          3. 将 `weini-quantum-proxy.app` 拖到 Applications 文件夹
+          
+          4. 首次运行：
+             - 右键点击应用
+             - 选择 "打开"
+             - 点击 "打开"（绕过 Gatekeeper）
+          
+          **不确定您的 Mac 类型？**
+          - Universal 版本适用于所有 Mac
+          - 或者运行: `uname -m`
+            - `arm64` = Apple Silicon (M1/M2/M3)
+            - `x86_64` = Intel
+          
+          </details>
+          
+          <details>
+          <summary><b>Linux 安装</b></summary>
+          
+          **检查您的架构：**
+          ```bash
+          uname -m
+          # x86_64    → 下载 amd64
+          # i386/i686 → 下载 386
+          # aarch64   → 下载 arm64
+          # armv7l    → 下载 arm
+          ```
+          
+          **AMD64 (最常见):**
+          ```bash
+          # 下载
+          wget https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases/download/${{ steps.version.outputs.VERSION }}/weini-quantum-proxy-linux-amd64
+          
+          # 添加执行权限
+          chmod +x weini-quantum-proxy-linux-amd64
+          
+          # 运行
+          ./weini-quantum-proxy-linux-amd64
+          ```
+          
+          **ARM64 (树莓派 4/5):**
+          ```bash
+          wget https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases/download/${{ steps.version.outputs.VERSION }}/weini-quantum-proxy-linux-arm64
+          chmod +x weini-quantum-proxy-linux-arm64
+          ./weini-quantum-proxy-linux-arm64
+          ```
+          
+          **ARM (树莓派 3):**
+          ```bash
+          wget https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases/download/${{ steps.version.outputs.VERSION }}/weini-quantum-proxy-linux-arm
+          chmod +x weini-quantum-proxy-linux-arm
+          ./weini-quantum-proxy-linux-arm
+          ```
+          
+          </details>
+          
+          ---
+          
+          ### 📋 更新日志
+          
+          查看 [CHANGELOG.md](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/blob/main/CHANGELOG.md) 了解详细变更。
+          
+          ---
+          
+          ### 📚 文档与支持
+          
+          - 📖 [快速开始指南](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/blob/main/docs/QUICK_START.md)
+          - 💬 [GitHub Issues](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
+          - 📧 info@weinisecure.net
+          - 🌐 https://weinisecure.net
+          
+          ---
+          
+          **完整变更日志**: https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/compare/v0.9.0...${{ steps.version.outputs.VERSION }}
+          EOF
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/**/*
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

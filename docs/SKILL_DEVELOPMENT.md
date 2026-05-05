@@ -437,8 +437,8 @@ logging.info("Starting process...")
 开发Skill遇到问题？
 
 1. 📖 查看现有Skill的实现
-2. 💬 在[Discussions](https://github.com/weinidaohang/weini-quantum-proxy/discussions)提问
-3. 🐛 在[Issues](https://github.com/weinidaohang/weini-quantum-proxy/issues)报告bug
+2. 💬 在[Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions)提问
+3. 🐛 在[Issues](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)报告bug
 4. 💌 加入[Telegram群组](https://t.me/weini_quantum)交流
 
 ---

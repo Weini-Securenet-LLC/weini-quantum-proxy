@@ -4,9 +4,9 @@
 
 **در راه آزادی اینترنت**
 
-[![Build Status](https://github.com/weinidaohang/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/weinidaohang/weini-quantum-proxy/actions)
+[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/weinidaohang/weini-quantum-proxy/releases)
+[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
 
 ---
 
@@ -58,7 +58,7 @@
 
 ### دانلود و اجرا
 
-1. به [Releases](https://github.com/weinidaohang/weini-quantum-proxy/releases) بروید و نسخه مناسب سیستم خود را دانلود کنید
+1. به [Releases](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases) بروید و نسخه مناسب سیستم خود را دانلود کنید
 2. فایل را استخراج کرده و برنامه را اجرا کنید
 3. یک نود انتخاب کنید
 4. روی "شروع پروکسی جهانی" کلیک کنید
@@ -123,8 +123,8 @@
 
 ما از همه اشکال مشارکت استقبال می‌کنیم!
 
-- 🐛 [گزارش مشکلات](https://github.com/weinidaohang/weini-quantum-proxy/issues)
-- 💡 [پیشنهاد ویژگی](https://github.com/weinidaohang/weini-quantum-proxy/issues/new?template=feature_request.md)
+- 🐛 [گزارش مشکلات](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
+- 💡 [پیشنهاد ویژگی](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues/new?template=feature_request.md)
 - 🌍 [ترجمه مستندات](../community/TRANSLATION.md)
 - 💻 [ارسال کد](../CONTRIBUTING.md)
 - 📢 با افراد بیشتری که به آن نیاز دارند به اشتراک بگذارید
@@ -165,7 +165,7 @@
 
 ## 💬 دریافت کمک
 
-- [GitHub Discussions](https://github.com/weinidaohang/weini-quantum-proxy/discussions) - بحث‌های جامعه
+- [GitHub Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions) - بحث‌های جامعه
 - [Telegram](https://t.me/weini_quantum) - گفتگوی زنده
 - [راهنمای کاربر](../docs/USER_GUIDE.md) - راهنمای تفصیلی
 

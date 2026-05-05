@@ -4,9 +4,9 @@
 
 **За свободу интернета**
 
-[![Build Status](https://github.com/weinidaohang/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/weinidaohang/weini-quantum-proxy/actions)
+[![Build Status](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/workflows/Build%20and%20Release/badge.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/weinidaohang/weini-quantum-proxy/releases)
+[![GitHub release](https://img.shields.io/github/release/weinidaohang/weini-quantum-proxy.svg)](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases)
 
 ---
 
@@ -56,7 +56,7 @@ Weini Quantum Proxy - это **открытое, бесплатное и про�
 
 ### Скачать и запустить
 
-1. Перейдите в [Releases](https://github.com/weinidaohang/weini-quantum-proxy/releases) и скачайте версию для вашей системы
+1. Перейдите в [Releases](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/releases) и скачайте версию для вашей системы
 2. Распакуйте и запустите программу
 3. Выберите узел
 4. Нажмите "Запустить глобальный прокси"
@@ -118,8 +118,8 @@ Weini Quantum Proxy
 
 Мы приветствуем все формы вклада!
 
-- 🐛 [Сообщить о проблеме](https://github.com/weinidaohang/weini-quantum-proxy/issues)
-- 💡 [Предложить функцию](https://github.com/weinidaohang/weini-quantum-proxy/issues/new?template=feature_request.md)
+- 🐛 [Сообщить о проблеме](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues)
+- 💡 [Предложить функцию](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/issues/new?template=feature_request.md)
 - 🌍 [Перевести документацию](../community/TRANSLATION.md)
 - 💻 [Отправить код](../CONTRIBUTING.md)
 - 📢 Поделиться с другими людьми, которым это нужно
@@ -143,7 +143,7 @@ Weini Quantum Proxy
 
 ## 💬 Получить помощь
 
-- [GitHub Discussions](https://github.com/weinidaohang/weini-quantum-proxy/discussions) - Обсуждения сообщества
+- [GitHub Discussions](https://github.com/Weini-Securenet-LLC/weini-quantum-proxy/discussions) - Обсуждения сообщества
 - [Telegram](https://t.me/weini_quantum) - Чат в реальном времени
 - [Руководство пользователя](../docs/USER_GUIDE.md) - Подробное руководство
 
