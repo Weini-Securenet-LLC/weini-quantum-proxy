@@ -9,17 +9,23 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+concurrency:
+  group: build-release-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   GO_VERSION: '1.22'
 
 jobs:
   build:
     name: Build Core Binaries
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Go
         uses: actions/setup-go@v5
