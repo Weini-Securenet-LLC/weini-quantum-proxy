@@ -14,6 +14,8 @@ const el = {
   openBtn: document.getElementById('openBtn'),
   connectBtn: document.getElementById('connectBtn'),
   disconnectBtn: document.getElementById('disconnectBtn'),
+  testAllBtn: document.getElementById('testAllBtn'),
+  copyShareBundleBtn: document.getElementById('copyShareBundleBtn'),
   protocolChips: document.getElementById('protocolChips'),
   protocolStats: document.getElementById('protocolStats'),
   nodesBody: document.getElementById('nodesBody'),
@@ -129,7 +131,7 @@ function renderActiveNode(node = null) {
   state.activeNode = node;
   if (!node) {
     el.activeNodeCard.innerHTML = '未激活节点';
-    refreshSharePanel();
+    void refreshSharePanel().catch(() => {});
     return;
   }
   el.activeNodeCard.innerHTML = `
@@ -139,7 +141,7 @@ function renderActiveNode(node = null) {
     <div>TLS: ${node.tls || '-'}</div>
     <div class="muted-line">退出程序时将自动断开代理并恢复系统代理。</div>
   `;
-  refreshSharePanel();
+  void refreshSharePanel().catch(() => {});
 }
 
 function shareableNodeURI() {
@@ -149,20 +151,31 @@ function shareableNodeURI() {
   return '';
 }
 
-function refreshSharePanel() {
-  const uri = shareableNodeURI();
+async function refreshSharePanel() {
+  const bridge = getWailsApp();
+  let uri = '';
+  try {
+    if (bridge?.GetSharePreviewURI) {
+      uri = (await bridge.GetSharePreviewURI()) || '';
+    }
+  } catch (_) {
+    uri = '';
+  }
+  if (!uri) uri = shareableNodeURI();
   const host = el.shareQrHost;
   const preview = el.sharePreview;
   if (preview) {
     if (!uri) {
-      preview.textContent = '请先在表格中点选一条节点，二维码与复制会同步更新。';
+      preview.textContent = '请先「本页测速」；分享包二维码优先展示首条可用节点（未测速时可点选表格查看单条）。';
+    } else if (!(await canPreviewShareBundle())) {
+      preview.textContent = (uri.length > 72 ? `${uri.slice(0, 72)}…` : uri);
     } else {
-      preview.textContent = uri.length > 72 ? `${uri.slice(0, 72)}…` : uri;
+      preview.textContent = `首条可用（分享包至多 5 条）：${uri.length > 56 ? `${uri.slice(0, 56)}…` : uri}`;
     }
   }
   if (!host) return;
   if (!uri) {
-    host.innerHTML = '<div class="share-placeholder">点选节点后显示二维码</div>';
+    host.innerHTML = '<div class="share-placeholder">测速首条可用或点选节点后显示二维码</div>';
     return;
   }
   try {
@@ -176,6 +189,17 @@ function refreshSharePanel() {
     host.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 2, scalable: true });
   } catch (e) {
     host.innerHTML = '<div class="share-placeholder">二维码生成失败</div>';
+  }
+}
+
+async function canPreviewShareBundle() {
+  const bridge = getWailsApp();
+  if (!bridge?.GetSharePreviewURI) return false;
+  try {
+    const u = (await bridge.GetSharePreviewURI()) || '';
+    return !!u;
+  } catch (_) {
+    return false;
   }
 }
 
@@ -194,10 +218,52 @@ async function copyShareLink() {
     } else {
       throw new Error('剪贴板不可用');
     }
-    showToast('节点链接已复制，可发给朋友或到手机端粘贴', 'success', 3000);
-    appendTrafficLine('已复制分享链接');
+    showToast('当前所选节点链接已复制', 'success', 3000);
+    appendTrafficLine('已复制单条链接');
   } catch (err) {
     showToast(getErrorText(err), 'error', 3200);
+  }
+}
+
+async function copyShareBundle() {
+  const bridge = getWailsApp();
+  if (!bridge?.CopyShareBundle) {
+    showToast('当前运行模式不支持分享包', 'error');
+    return;
+  }
+  try {
+    await bridge.CopyShareBundle();
+    showToast('已复制对外分享包（最多 5 条可用节点，每行一条）', 'success', 3400);
+    appendTrafficLine('已复制对外分享包');
+  } catch (err) {
+    showToast(getErrorText(err), 'error', 4200);
+  }
+}
+
+async function testAllNodesOnPage() {
+  const uris = visibleNodes().map((n) => n.raw_uri).filter(Boolean);
+  if (!uris.length) {
+    showToast('请先量子抓取加载节点', 'error');
+    return;
+  }
+  const bridge = getWailsApp();
+  if (!bridge?.TestProxyNodes) {
+    showToast('当前模式不支持测速', 'error');
+    return;
+  }
+  setStatus('正在测速本页节点…');
+  appendTrafficLine(`开始测速 ${uris.length} 条节点`);
+  try {
+    const results = await bridge.TestProxyNodes({ uris });
+    const ok = results.filter((r) => r.usable).length;
+    setStatus(`测速完成：${ok}/${results.length} 可用`);
+    showToast(`测速完成：${ok} 条可用 / ${results.length} 条`, ok > 0 ? 'success' : 'error', 4000);
+    appendTrafficLine(`测速结束 可用 ${ok}/${results.length}`);
+    await refreshSharePanel();
+  } catch (err) {
+    setStatus('测速失败');
+    showToast(getErrorText(err), 'error', 3600);
+    appendTrafficLine(`测速错误：${getErrorText(err)}`);
   }
 }
 
@@ -248,7 +314,7 @@ function renderNodes() {
     tr.ondblclick = () => activateSelectedNode();
     el.nodesBody.appendChild(tr);
   });
-  refreshSharePanel();
+  refreshSharePanel().catch(() => {});
 }
 
 function getWailsApp() {
@@ -414,10 +480,19 @@ async function fetchNodes() {
     renderStats(data);
     renderNodes();
     renderActiveNode(null);
-    refreshSharePanel();
+    void refreshSharePanel().catch(() => {});
     setProgress(100);
-    setStatus(`已加载 ${data.total_nodes} 个节点`);
-    appendTrafficLine(`成功加载 ${data.total_nodes} 个节点`);
+    const src = data.source_discovered_count;
+    const line =
+      src && src > (data.total_nodes || 0)
+        ? `已从来源发现 ${src} 条，随机保留本地 ${data.total_nodes} 条`
+        : `已加载本地 ${data.total_nodes} 条节点`;
+    setStatus(line);
+    appendTrafficLine(
+      src && src > (data.total_nodes || 0)
+        ? `成功：来源 ${src} 条 → 本地保留 ${data.total_nodes} 条`
+        : `成功加载 ${data.total_nodes} 个节点`,
+    );
   } catch (err) {
     setStatus('抓取失败');
     setProgress(0);
@@ -445,6 +520,8 @@ async function bootstrap() {
   if (el.windowMinBtn) el.windowMinBtn.onclick = minimiseWindow;
   if (el.windowCloseBtn) el.windowCloseBtn.onclick = closeWindow;
   if (el.copyShareBtn) el.copyShareBtn.onclick = () => copyShareLink();
+  if (el.copyShareBundleBtn) el.copyShareBundleBtn.onclick = () => copyShareBundle();
+  if (el.testAllBtn) el.testAllBtn.onclick = () => testAllNodesOnPage();
   el.fetchBtn.onclick = fetchNodes;
   el.openBtn.onclick = activateSelectedNode;
   el.connectBtn.onclick = connectGlobalProxy;
@@ -455,7 +532,7 @@ async function bootstrap() {
     if (status) renderProxyStatus(status);
     renderTrafficLogs(logs);
     if (!statusPollHandle) statusPollHandle = setInterval(refreshRuntimePanels, 3000);
-    refreshSharePanel();
+    void refreshSharePanel().catch(() => {});
     appendTrafficLine('界面已就绪');
   } catch {
     appendTrafficLine('健康检查接口不可用');

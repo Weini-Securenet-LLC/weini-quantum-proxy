@@ -15,7 +15,3 @@ func restoreSystemProxy(systemProxyState) error {
 func systemProxySupported() bool {
 	return false
 }
-
-func systemProxyMatches(string) (bool, error) {
-	return false, nil
-}

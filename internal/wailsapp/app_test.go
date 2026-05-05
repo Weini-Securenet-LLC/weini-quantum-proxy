@@ -63,15 +63,43 @@ func TestFetchNodesUsesBackendParser(t *testing.T) {
 
 	app := New()
 	app.Startup(context.Background())
-	out, err := app.FetchNodes(FetchRequest{URL: server.URL, Protocols: []string{"ss", "vmess"}, Timeout: 5})
+	out, err := app.FetchNodes(FetchRequest{URL: server.URL, Protocols: []string{"ss", "vmess"}, Timeout: 5, SkipFetchPolicy: true})
 	if err != nil {
 		t.Fatalf("FetchNodes error: %v", err)
 	}
 	if out.TotalNodes != 2 {
 		t.Fatalf("expected 2 nodes, got %d", out.TotalNodes)
 	}
+	if out.SourceDiscoveredCount != 2 {
+		t.Fatalf("expected source discovered 2, got %d", out.SourceDiscoveredCount)
+	}
 	if out.ProtocolCounts["ss"] != 1 || out.ProtocolCounts["vmess"] != 1 {
 		t.Fatalf("unexpected counts: %#v", out.ProtocolCounts)
+	}
+}
+
+func TestFetchCooldownBlocksSecondFetchWithinHour(t *testing.T) {
+	fixture := map[string]any{
+		"nodes": []any{
+			"ss://YWVzLTI1Ni1nY206cGFzczFAc3MuZXhhbXBsZS5jb206ODM4OA#ss-demo",
+			map[string]any{"uri": makeVMessURI(t)},
+		},
+	}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_ = json.NewEncoder(w).Encode(fixture)
+	}))
+	defer server.Close()
+
+	app := New()
+	app.Startup(context.Background())
+	// 首次抓取需跳过策略，避免本机残留 fetch_policy.json 干扰；随后用第二次验证冷却。
+	_, err := app.FetchNodes(FetchRequest{URL: server.URL, Protocols: []string{"ss", "vmess"}, Timeout: 5, SkipFetchPolicy: true})
+	if err != nil {
+		t.Fatalf("first fetch: %v", err)
+	}
+	_, err = app.FetchNodes(FetchRequest{URL: server.URL, Protocols: []string{"ss", "vmess"}, Timeout: 5})
+	if err == nil {
+		t.Fatal("expected second fetch within cooldown to fail")
 	}
 }
 

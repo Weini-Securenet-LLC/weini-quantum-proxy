@@ -37,12 +37,13 @@ type Summary struct {
 }
 
 type Output struct {
-	SourceURL          string         `json:"source_url"`
-	SupportedProtocols []string       `json:"supported_protocols"`
-	TotalNodes         int            `json:"total_nodes"`
-	ProtocolCounts     map[string]int `json:"protocol_counts"`
-	HostsPreview       []string       `json:"hosts_preview"`
-	Nodes              []Node         `json:"nodes"`
+	SourceURL             string         `json:"source_url"`
+	SupportedProtocols    []string       `json:"supported_protocols"`
+	TotalNodes            int            `json:"total_nodes"`
+	SourceDiscoveredCount int            `json:"source_discovered_count"`
+	ProtocolCounts        map[string]int `json:"protocol_counts"`
+	HostsPreview          []string       `json:"hosts_preview"`
+	Nodes                 []Node         `json:"nodes"`
 }
 
 func ParseProtocols(csv string) []string {

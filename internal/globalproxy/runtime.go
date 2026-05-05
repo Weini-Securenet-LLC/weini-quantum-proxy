@@ -169,7 +169,7 @@ func (r *Runtime) Start(node proxynode.Node, opts Options) (Status, error) {
 	if err := r.configValidator(binaryPath, configPath); err != nil {
 		msg := fmt.Sprintf("sing-box 配置检查失败: %v", err)
 		r.status = Status{BinaryPath: binaryPath, LastError: msg, Mode: string(opts.Mode), MixedPort: opts.MixedPort, SocksPort: opts.SocksPort, Node: &node, ConfigPath: configPath, LogPath: logPath}
-		return r.status, fmt.Errorf(msg)
+		return r.status, errors.New(msg)
 	}
 	proc, err := r.runner.Start(binaryPath, []string{"run", "-D", r.workDir, "-c", configPath}, logPath, logPath)
 	if err != nil {
@@ -206,7 +206,7 @@ func (r *Runtime) Start(node proxynode.Node, opts Options) (Status, error) {
 		candidate.CheckMessage = "代理可用性检查失败"
 		candidate.PID = 0
 		r.status = candidate
-		return r.status, fmt.Errorf(msg)
+		return r.status, errors.New(msg)
 	}
 	if err := r.applySystemProxyLocked(opts, &candidate); err != nil {
 		_ = r.process.Kill()
@@ -464,7 +464,7 @@ func validateConfigWithSingBox(binaryPath string, configPath string) error {
 	if message == "" {
 		message = err.Error()
 	}
-	return fmt.Errorf(message)
+	return errors.New(message)
 }
 
 func verifyRuntimeReady(status Status) error {

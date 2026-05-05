@@ -44,6 +44,12 @@ type App struct {
 	activeNode   *proxynode.Node
 	proxyRuntime globalproxy.RuntimeController
 	nodeProber   NodeProber
+
+	fetchMu        sync.Mutex
+	lastFetchAt    time.Time
+	lastSampleURIs []string
+	probeDone      map[string]bool
+	probeUsable    map[string]bool
 }
 
 type TrafficLogSnapshot struct {
@@ -69,9 +75,10 @@ type HealthResponse struct {
 }
 
 type FetchRequest struct {
-	URL       string   `json:"url"`
-	Protocols []string `json:"protocols"`
-	Timeout   float64  `json:"timeout"`
+	URL              string   `json:"url"`
+	Protocols        []string `json:"protocols"`
+	Timeout          float64  `json:"timeout"`
+	SkipFetchPolicy  bool     `json:"skip_fetch_policy"`
 }
 
 type ProxyConnectRequest struct {
@@ -101,6 +108,9 @@ func (a *App) Startup(ctx context.Context) {
 			pinger: commandHostPinger{},
 		}
 	}
+	a.probeDone = map[string]bool{}
+	a.probeUsable = map[string]bool{}
+	a.loadFetchPolicy()
 }
 
 func (a *App) Shutdown(ctx context.Context) {
@@ -112,12 +122,6 @@ func (a *App) BeforeClose(ctx context.Context) bool {
 	_ = ctx
 	a.stopProxyRuntimeQuick()
 	return false
-}
-
-func (a *App) stopProxyRuntime() {
-	if a.proxyRuntime != nil {
-		_, _ = a.proxyRuntime.Stop()
-	}
 }
 
 func (a *App) stopProxyRuntimeQuick() {
@@ -152,6 +156,43 @@ func (a *App) CopyShareText(text string) error {
 	return wailsruntime.ClipboardSetText(ctx, text)
 }
 
+// GetSharePreviewURI returns the first probe-verified usable URI for a single QR preview, or empty string.
+func (a *App) GetSharePreviewURI() string {
+	a.fetchMu.Lock()
+	defer a.fetchMu.Unlock()
+	for _, u := range a.lastSampleURIs {
+		if u == "" {
+			continue
+		}
+		if a.probeDone[u] && a.probeUsable[u] {
+			return u
+		}
+	}
+	return ""
+}
+
+// CopyShareBundle copies up to maxShareURIs probe-verified usable node URIs (newline-separated) for sharing.
+func (a *App) CopyShareBundle() error {
+	a.fetchMu.Lock()
+	var lines []string
+	for _, u := range a.lastSampleURIs {
+		if u == "" {
+			continue
+		}
+		if a.probeDone[u] && a.probeUsable[u] {
+			lines = append(lines, u)
+			if len(lines) >= maxShareURIs {
+				break
+			}
+		}
+	}
+	a.fetchMu.Unlock()
+	if len(lines) == 0 {
+		return fmt.Errorf("请先点击「本页测速」；对外分享仅包含测速为可用的节点，最多 %d 条", maxShareURIs)
+	}
+	return a.CopyShareText(strings.Join(lines, "\n"))
+}
+
 func (a *App) FetchNodes(req FetchRequest) (proxynode.Output, error) {
 	url := req.URL
 	if url == "" {
@@ -165,7 +206,38 @@ func (a *App) FetchNodes(req FetchRequest) (proxynode.Output, error) {
 	if timeout <= 0 {
 		timeout = 20
 	}
-	return proxynode.FetchAndNormalize(url, timeout, protocols)
+
+	a.fetchMu.Lock()
+	defer a.fetchMu.Unlock()
+
+	if err := a.checkFetchAllowedLocked(req.SkipFetchPolicy); err != nil {
+		return proxynode.Output{}, err
+	}
+
+	out, err := proxynode.FetchAndNormalize(url, timeout, protocols)
+	if err != nil {
+		return proxynode.Output{}, err
+	}
+	sourceCount := len(out.Nodes)
+	sampled := proxynode.SampleSubset(out.Nodes, maxLocalSampleNodes)
+	summary := proxynode.SummarizeNodes(sampled, protocols)
+	out.Nodes = sampled
+	out.TotalNodes = len(sampled)
+	out.SourceDiscoveredCount = sourceCount
+	out.ProtocolCounts = summary.ProtocolCounts
+	out.HostsPreview = summary.HostsPreview
+
+	a.lastFetchAt = time.Now()
+	a.probeDone = map[string]bool{}
+	a.probeUsable = map[string]bool{}
+	a.lastSampleURIs = make([]string, 0, len(sampled))
+	for _, n := range sampled {
+		if n.RawURI != "" {
+			a.lastSampleURIs = append(a.lastSampleURIs, n.RawURI)
+		}
+	}
+	a.saveFetchPolicyLocked()
+	return out, nil
 }
 
 func (a *App) ActivateProxyURI(uri string) (proxynode.Node, error) {
@@ -197,6 +269,25 @@ func (a *App) TestProxyNodes(req NodeTestRequest) ([]NodeTestResult, error) {
 	for _, node := range nodes {
 		results = append(results, a.nodeProber.Probe(node))
 	}
+
+	a.fetchMu.Lock()
+	for _, r := range results {
+		uri := strings.TrimSpace(r.Node.RawURI)
+		if uri == "" {
+			continue
+		}
+		if a.probeDone == nil {
+			a.probeDone = map[string]bool{}
+		}
+		if a.probeUsable == nil {
+			a.probeUsable = map[string]bool{}
+		}
+		a.probeDone[uri] = true
+		a.probeUsable[uri] = r.Usable
+	}
+	a.saveFetchPolicyLocked()
+	a.fetchMu.Unlock()
+
 	return results, nil
 }
 

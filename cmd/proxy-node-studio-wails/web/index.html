@@ -39,7 +39,7 @@
       <div>
         <p class="eyebrow">维尼量子节点 · 全局代理控制台</p>
         <h1>维尼量子节点</h1>
-        <p class="sub">支持 SS / VMESS / VLESS / TROJAN，从 list.json 拉取节点，并显示实时流量日志。</p>
+        <p class="sub">支持 SS / VMESS / VLESS / TROJAN。量子抓取从订阅源发现节点后<strong>随机保留至多 10 条</strong>在本地；同 URL <strong>约 1 小时</strong>可再抓一次（若测速后半数以上不可用则提前放开）。对外分享前请先<strong>本页测速</strong>，仅可复制最多 <strong>5 条可用</strong>节点。</p>
       </div>
       <div class="hero-stats">
         <div class="stat glow-soft"><span>总数</span><strong id="totalNodes">0</strong></div>
@@ -56,6 +56,7 @@
         <div class="chips" id="protocolChips"></div>
         <div class="actions">
           <button id="openBtn" class="btn accent">选择节点</button>
+          <button id="testAllBtn" class="btn info" type="button">本页测速</button>
           <button id="connectBtn" class="btn primary">连接全局代理</button>
           <button id="disconnectBtn" class="btn ghost">断开连接</button>
         </div>
@@ -76,7 +77,8 @@
         <div id="sharePanel" class="share-panel">
           <div id="shareQrHost" class="share-qr-host" aria-live="polite"></div>
           <div class="share-actions">
-            <button id="copyShareBtn" type="button" class="btn ghost share-btn">复制节点链接</button>
+            <button id="copyShareBundleBtn" type="button" class="btn secondary share-btn">复制对外分享包（≤5条可用）</button>
+            <button id="copyShareBtn" type="button" class="btn ghost share-btn">复制当前所选一条</button>
           </div>
           <p id="sharePreview" class="share-preview muted-line"></p>
           <details class="share-help">
@@ -89,7 +91,7 @@
               <p><strong>鸿蒙与其他系统</strong></p>
               <p>安装兼容 SS / VMess / VLESS / Trojan 的代理客户端后，同样使用剪贴板导入或扫码；鸿蒙需选择已适配的第三方客户端。</p>
               <p><strong>说明</strong></p>
-              <p>此处为<strong>单条节点</strong>链接。若你与朋友共享的是整包订阅，请在客户端里选择「订阅 / Subscription」并粘贴订阅地址。</p>
+              <p>「复制对外分享包」仅包含<strong>已测速且可用</strong>的节点，<strong>最多 5 条</strong>；「复制当前所选一条」用于单条剪贴板。若共享整包订阅，请在客户端添加「订阅 / Subscription」。</p>
             </div>
           </details>
         </div>
